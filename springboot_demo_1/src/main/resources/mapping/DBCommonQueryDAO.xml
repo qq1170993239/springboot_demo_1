@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lix.study.db.dao.DBCommonQueryDAO">
+
+	<select id="execSqlData" resultType="java.util.Map">
+		${sql}
+	</select>
+
+	<select id="queryConditionsData" resultType="java.util.Map">
+		SELECT
+			*
+		FROM
+			${tableName}
+		WHERE 1 = 1
+		<if test="conditions != null">
+			<foreach collection="" item="item">
+				AND #{item}
+			</foreach>
+		</if>
+	</select>
+
+	<insert id="insertConditionsData" statementType="STATEMENT">
+		INSERT INTO
+		${tableName}
+		<foreach collection="colName" item="name" open="(" close=")"
+			separator=",">
+			${name}
+		</foreach>
+		VALUES
+		<foreach collection="colValue" item="value" open="(" close=")"
+			separator=",">
+			${value}
+		</foreach>
+	</insert>
+</mapper>
+
+
+
