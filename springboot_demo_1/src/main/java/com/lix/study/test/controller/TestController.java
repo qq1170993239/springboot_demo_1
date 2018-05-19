@@ -6,6 +6,9 @@ import java.util.concurrent.Future;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,8 @@ import com.lix.study.config.redis.service.RedisCacheble;
 import com.lix.study.db.service.DBCommonQueryService;
 import com.lix.study.ioc.ConfigValue;
 import com.lix.study.ioc.log.InputOutputLog;
+import com.lix.study.login.dao.LoginUserDao;
+import com.lix.study.login.dto.LoginUserEntity;
 import com.lix.study.sdk.common.dto.ResultDTO;
 import com.lix.study.service.async.testservice.TestAsync;
 
@@ -56,18 +61,28 @@ public class TestController {
 	@Autowired
 	private User user;
 	
+	@Autowired
+	private LoginUserDao loginUserDao;
+	
 	@PostMapping("/execsql")
 	public ResultDTO<List<Map<String, Object>>> execSqlData(@RequestBody String sql){
 		return new ResultDTO<>(dBCommonQueryService.execSqlData(sql));
 	}
-	
+	/**
+	 * 测试redis注解以及自定义配置注入
+	 * @param param
+	 * @return
+	 */
 	@GetMapping("/testRedis")
 	@InputOutputLog
 	@RedisCacheble(key = "testRedis")
 	public ResultDTO<String> testRedis(@RequestParam String param){
 		return new ResultDTO<>(String.format("传入参数:%s,数据库配置:%s,静态文件读取:%s", param, value, user.getName()));
 	}
-	
+	/**
+	 * 测试异步任务执行
+	 * @return
+	 */
 	@InputOutputLog
 	@GetMapping("/testAsync")
 	public ResultDTO<String> testAsync() {
@@ -84,7 +99,11 @@ public class TestController {
 		}
 		return new ResultDTO<>("执行总耗时 ：" + (System.currentTimeMillis() - start) + "ms");
 	}
-	
+	/**
+	 * 测试webservice调用
+	 * @param name
+	 * @return
+	 */
 	@InputOutputLog
 	@GetMapping("/testWebserivce")
 	@RedisCacheble(key = "testWebserivce")
@@ -100,6 +119,37 @@ public class TestController {
 			logger.error(e.getMessage());
 		}
 		return new ResultDTO<>(null);
+	}
+	/**
+	 * 测试loginUserDao
+	 * @param userName
+	 * @return
+	 */
+	@InputOutputLog
+	@GetMapping("/find")
+	@RedisCacheble(key = "findUserByName")
+	public ResultDTO<LoginUserEntity> findUserByName(@RequestParam String userName) {
+		return new ResultDTO<>(loginUserDao.findUserByName(userName));
+	}
+	/**
+	 * 测试shiro登录认证
+	 * @param userName
+	 * @param password
+	 * @return
+	 */
+	@GetMapping("/login")
+	public ResultDTO<String> testLogin(@RequestParam String userName, @RequestParam String password) {
+		UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userName, password);
+		Subject subject = SecurityUtils.getSubject();
+		try {
+			// 登录
+			subject.login(usernamePasswordToken);
+			LoginUserEntity user = (LoginUserEntity) subject.getPrincipal();
+			subject.getSession().setAttribute("user", user);
+			return new ResultDTO<>("欢迎" + user.getUserName() + "登陆成功。。。。。");
+		} catch (Exception e) {
+			return new ResultDTO<>("登陆失败的处理逻辑。。。。。");
+		}
 	}
 	
 }
