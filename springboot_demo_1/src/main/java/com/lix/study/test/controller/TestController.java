@@ -1,4 +1,4 @@
-package com.lix.study.db.controller;
+package com.lix.study.test.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lix.study.config.dto.User;
 import com.lix.study.config.redis.service.RedisCacheble;
 import com.lix.study.db.service.DBCommonQueryService;
 import com.lix.study.ioc.ConfigValue;
 import com.lix.study.ioc.log.InputOutputLog;
 import com.lix.study.sdk.common.dto.ResultDTO;
-import com.lix.study.sdk.common.dto.User;
 import com.lix.study.service.async.testservice.TestAsync;
 
 /**
@@ -93,6 +93,7 @@ public class TestController {
 		Client client = clientFactory.createClient("http://localhost:8002/services/webservice/sayhi?wsdl");  
 		Object[] result = null;
 		try {
+			// 方法名，参数
 			result = client.invoke("sayHello", name);
 			return new ResultDTO<>(result[0].toString()); 
 		} catch (Exception e) {

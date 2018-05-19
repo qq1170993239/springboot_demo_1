@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 发布服务
- * @author Administrator
+ * @author lix
  */
 @Configuration
 public class CxfWebserviceConfig {

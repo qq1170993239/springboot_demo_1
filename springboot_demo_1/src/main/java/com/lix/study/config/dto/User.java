@@ -1,4 +1,4 @@
-package com.lix.study.sdk.common.dto;
+package com.lix.study.config.dto;
 
 import java.io.Serializable;
 
