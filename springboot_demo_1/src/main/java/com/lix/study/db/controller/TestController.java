@@ -87,6 +87,7 @@ public class TestController {
 	
 	@InputOutputLog
 	@GetMapping("/testWebserivce")
+	@RedisCacheble(key = "testWebserivce")
 	public ResultDTO<String> testWebserivce(@RequestParam String name){
 		JaxWsDynamicClientFactory clientFactory = JaxWsDynamicClientFactory.newInstance();  
 		Client client = clientFactory.createClient("http://localhost:8002/services/webservice/sayhi?wsdl");  
