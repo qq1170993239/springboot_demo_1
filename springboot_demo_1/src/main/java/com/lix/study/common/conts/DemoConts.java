@@ -1,4 +1,7 @@
 package com.lix.study.common.conts;
+
+import java.nio.charset.Charset;
+
 /**
  * 项目常量类
  * @author lix
@@ -19,6 +22,8 @@ public class DemoConts {
 	public static final String CODE = "code";
 	public static final String TYPE = "type";
 	
+	public static final String UTF_8 = "utf-8";
 	
+	public static final Charset CHARSET_UTF8 = Charset.forName(UTF_8);
 
 }

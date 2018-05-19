@@ -137,7 +137,7 @@ public class TestController {
 	 * @param password
 	 * @return
 	 */
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResultDTO<String> testLogin(@RequestParam String userName, @RequestParam String password) {
 		UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userName, password);
 		Subject subject = SecurityUtils.getSubject();
