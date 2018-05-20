@@ -1,4 +1,4 @@
-package com.lix.study.ioc.log;
+package com.lix.study.aop.log;
 
 import java.util.HashMap;
 import java.util.Map;

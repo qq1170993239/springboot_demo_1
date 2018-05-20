@@ -1,4 +1,4 @@
-package com.lix.study.ioc;
+package com.lix.study.aop;
 
 import java.lang.reflect.Field;
 import java.util.Collections;

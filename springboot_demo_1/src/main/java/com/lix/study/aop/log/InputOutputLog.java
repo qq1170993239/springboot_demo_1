@@ -1,4 +1,4 @@
-package com.lix.study.ioc.log;
+package com.lix.study.aop.log;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
