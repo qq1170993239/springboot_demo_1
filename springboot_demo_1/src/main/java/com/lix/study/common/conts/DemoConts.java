@@ -7,7 +7,7 @@ import java.nio.charset.Charset;
  * @author lix
  */
 public class DemoConts {
-	
+
 	private DemoConts() {}
 	/**
 	 * 密码加盐
