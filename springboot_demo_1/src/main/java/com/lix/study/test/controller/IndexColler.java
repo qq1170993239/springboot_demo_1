@@ -15,7 +15,7 @@ import java.util.Map;
 @RequestMapping("/test")
 public class IndexColler {
 
-    @RequestMapping("/index")
+    @RequestMapping("/index")// http://localhost:8002/test/index
     public String index(Map<String, Object> data){
         data.put("name", "zhangsan");
         data.put("age", 23);
